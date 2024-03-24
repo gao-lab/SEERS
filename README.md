@@ -1,5 +1,5 @@
-# SEERS (Selective Enrichment of Episomes containing Random Sequences)
-Systematic exploration of 3'UTR regulatory elements and their contextual associations.  
+# SEERS (Selective Enrichment of Episomes with Random Sequences)  
+A systematic exploration of 3'UTR regulatory elements and their contextual associations.  
 
 ## Data Processing
 All paired-end FASTQ files were merged with `NGmerge`:
