@@ -12,6 +12,7 @@ All paired-end FASTQ files were merged with `NGmerge`:
 
 ## Model Training and Usage
 `SEERS_train.ipynb` - Model training and evaluation.  
+`L5-220528_em5-LSTM64x32x0.5-64x0.5-rep4.hdf5` - Our best "context-aware" model (TALE).  
 `SEERS_evolution.ipynb` - In silico experiments.  
 
 ## K-mer Analyses
