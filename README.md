@@ -16,4 +16,5 @@ All paired-end FASTQ files were merged with `NGmerge`:
 
 ## K-mer Analyses
 `kmer_profiling.R` - Perform statistical tests for correlations between different k-mers and the regulatory phenotypes.  
+`L5_2-8mer.tsv` - Our 2-8 mer profiling result from SEERS.  
 `kmer_profile_visual.R` - Visualize the k-mer analysis result.  
