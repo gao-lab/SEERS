@@ -11,7 +11,7 @@ All paired-end FASTQ files were merged with `NGmerge`:
 `ANN_data_prep.R` - Prepare data files for model training.  
 
 ## Model Training and Usage
-`TALE_training_data.tar.bz2` - Training data.
+`TALE_training_data.tar.bz2` - Training data.  
 `SEERS_train.ipynb` - Model training and evaluation.  
 `L5-220528_em5-LSTM64x32x0.5-64x0.5-rep4.hdf5` - Our best "context-aware" model (TALE).  
 `SEERS_evolution.ipynb` - In silico experiments.  
