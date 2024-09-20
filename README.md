@@ -1,6 +1,12 @@
 # SEERS (Selective Enrichment of Episomes with Random Sequences)  
 A systematic exploration of 3'UTR regulatory elements and their contextual associations.  
 
+## Change Log
+| Date         |  Description                                               |
+| ------------ |  ------------------------------------------------------------ |
+| 2024-08-14 | Resolved the issue preventing the model from loading after upgrading TensorFlow to 2.16. Refactored the Jupyter Notebook. |
+
+
 ## Data Processing
 All paired-end FASTQ files were merged with `NGmerge`:
 ```sh
@@ -12,9 +18,9 @@ All paired-end FASTQ files were merged with `NGmerge`:
 
 ## Model Training and Usage
 `TALE_training_data.tar.bz2` - Training data.  
-`SEERS_train.ipynb` - Model training and evaluation.  
+`TALE_train.ipynb` - Model training and evaluation.  
 `L5-220528_em5-LSTM64x32x0.5-64x0.5-rep4.hdf5` - Our best "context-aware" model (TALE).  
-`SEERS_evolution.ipynb` - In silico experiments.  
+`TALE_use.ipynb` - In silico experiments.  
 
 ## K-mer Analyses
 `kmer_profiling.R` - Perform statistical tests for correlations between different k-mers and the regulatory phenotypes.  
