@@ -22,10 +22,10 @@ All paired-end FASTQ files were merged with `NGmerge`:
 `TALE_training_data.tar.bz2` - Training data.  
 `TALE_train.ipynb` - Model training and evaluation.  
 `L5-220528_em5-LSTM64x32x0.5-64x0.5-rep4.hdf5` - Our best "context-aware" model (TALE).  
-`TALE_use.ipynb` - All in silico experiments.
-`kmer_motif.ipynb` - Generate the motifs in Fig.2.
-`N45_dissect.ipynb` - Generate the heatmaps in Fig.4B.
-`TALE_SNP_effect.ipynb` - Predict 3'UTR variant effect. 
+`TALE_use.ipynb` - All in silico experiments.  
+`kmer_motif.ipynb` - Generate the motifs in Fig.2.  
+`N45_dissect.ipynb` - Generate the heatmaps in Fig.4B.  
+`TALE_SNP_effect.ipynb` - Predict 3'UTR variant effect.  
 
 ## K-mer Analyses
 `kmer_profiling.R` - Perform statistical tests for correlations between different k-mers and the regulatory phenotypes.  
