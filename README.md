@@ -5,7 +5,8 @@ A systematic exploration of 3'UTR regulatory elements and their contextual assoc
 | Date         |  Description                                               |
 | ------------ |  ------------------------------------------------------------ |
 | 2024-08-14 | Resolved the issue preventing the model from loading after upgrading TensorFlow to 2.16. Refactored the Jupyter Notebook. |
-| 2024-12-08 | Added TALE_SNP_effect.ipynb |
+| 2024-12-08 | Added `TALE_SNP_effect.ipynb` |
+| 2025-04-21 | Added `kmer_motif.ipynb` and `N45_dissect.ipynb` |
 
 
 ## Data Processing
@@ -21,7 +22,9 @@ All paired-end FASTQ files were merged with `NGmerge`:
 `TALE_training_data.tar.bz2` - Training data.  
 `TALE_train.ipynb` - Model training and evaluation.  
 `L5-220528_em5-LSTM64x32x0.5-64x0.5-rep4.hdf5` - Our best "context-aware" model (TALE).  
-`TALE_use.ipynb` - In silico experiments.  
+`TALE_use.ipynb` - All in silico experiments.
+`kmer_motif.ipynb` - Generate the motifs in Fig.2.
+`N45_dissect.ipynb` - Generate the heatmaps in Fig.4B.
 `TALE_SNP_effect.ipynb` - Predict 3'UTR variant effect. 
 
 ## K-mer Analyses
