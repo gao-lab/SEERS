@@ -24,3 +24,4 @@ All paired-end FASTQ files were merged with `NGmerge`:
 
 ## Model Training and Usage
 `TALE_models_LiJY_260128` - Refer to this folder for now.
+Full training data are available at Zenodo (https://doi.org/10.5281/zenodo.18400022).
