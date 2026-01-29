@@ -1,27 +1,73 @@
-# SEERS (Selective Enrichment of Episomes with Random Sequences)  
-A systematic delineation of 3′ UTR regulatory elements and their contextual associations.
+## SEERS: Selective Enrichment of Episomes with Random Sequences
 
-## Change Log
-| Date         |  Description                                               |
-| ------------ |  ------------------------------------------------------------ |
-| 2024-08-14 | Resolved the issue preventing the model from loading after upgrading TensorFlow to 2.16. Refactored the Jupyter Notebook. |
-| 2024-12-08 | Added `TALE_SNP_effect.ipynb` |
-| 2025-04-21 | Added `kmer_motif.ipynb` and `N45_dissect.ipynb` |
-| 2026-01-28 | Updated all scripts to reflect the revised manuscript and updated dataset. |
+**A systematic delineation of 3′ UTR regulatory elements and their contextual associations.**
 
-## SEERS Data Processing & k-mer Analyses
-`SEERS_data_process_LiangN_260128` - Refer to this folder for now.
+---
 
-All paired-end FASTQ files were merged with `NGmerge`:
-```sh
-./NGmerge -d -1 1.fq.gz -2 2.fq.gz  -o merged.fq.gz
+### 📖 Introduction
+
+SEERS (Selective Enrichment of Episomes with Random Sequences) is a high-throughput framework designed to dissect the regulatory landscape of **3′ UTRs**. By leveraging random sequence libraries and episomal enrichment, this pipeline allows for the systematic identification of regulatory motifs and the quantification of their functional impact on gene expression.
+
+### 🛠️ Key Features
+
+* **Massively Parallel Analysis:** Quantifies millions of random or specific sequences simultaneously.
+* **Multi-Compartment Profiling:** Supports data integration from DNA, Cytoplasm, and Nucleus.
+* **Motif Discovery:** Built-in tools for k-mer profiling and SNP effect prediction.
+* **Deep Learning Ready:** Includes pre-trained TALE models for regulatory activity prediction.
+
+---
+
+### 📂 Repository Structure
+
+#### 1. Data Processing & k-mer Analyses
+
+`SEERS_data_process_LiangN/`
+
+* `Nn_pp.R`: Extract and count N45 sequences from merged FASTQ files.
+* `Nn_pp_pool.R`: Aggregate counts across multiple biological replicates.
+* `combine_dna_cyt_nuc.R`: Compute enrichment scores (SEERS data) by normalizing Cyt/Nuc counts against DNA input.
+* `kmer_profiling.R`: Statistical testing of k-mer correlations with regulatory activity.
+
+#### 2. Deep Learning Models
+
+`TALE_models_LiJY_260128/`
+
+* Contains the architecture and weights for the **TALE models**.
+
+---
+
+### 🚀 Getting Started
+
+#### Prerequisites
+
+* **Bioinformatics Tools:** [NGmerge](https://github.com/jsh58/NGmerge)
+* **Language Environment:** R (>= 4.0), Python (>= 3.9, TensorFlow 2.16+)
+
+#### Step 1: Pre-processing
+
+Merge your paired-end sequencing data:
+
+```bash
+./NGmerge -d -1 read1.fq.gz -2 read2.fq.gz -o merged.fq.gz
+
 ```
 
-`Nn_pp.R` - Count N45 from `merged.fq.gz` files.  
-`Nn_pp_pool.R` - Pool N45 counts.  
-`combine_dna_cyt_nuc.R` - Generate SEERS data from counts.  
-`kmer_profiling.R` - Test k-mers for their regulatory correlations.
+#### Step 2: Training Data
 
-## Model Training and Usage
-`TALE_models_LiJY_260128` - Refer to this folder for now.
-Full training data are available at Zenodo (https://doi.org/10.5281/zenodo.18400022).
+Download the full training dataset from Zenodo:
+
+🔗 [https://doi.org/10.5281/zenodo.18400022](https://doi.org/10.5281/zenodo.18400022)
+
+---
+
+### 📝 Change Log
+
+| Date | Version/Update | Description |
+| --- | --- | --- |
+| **2026-01-28** | v2.0 | Updated scripts for revised manuscript and new datasets. |
+| **2025-04-21** | v1.2 | Added `kmer_motif.ipynb` and `N45_dissect.ipynb`. |
+| **2024-12-08** | v1.1 | Added `TALE_SNP_effect.ipynb`. |
+| **2024-08-14** | v1.0 | TF 2.16 compatibility fix & Refactored Notebooks. |
+
+---
+
