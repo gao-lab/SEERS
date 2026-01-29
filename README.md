@@ -45,7 +45,7 @@ SEERS (Selective Enrichment of Episomes with Random Sequences) is a high-through
 
 #### Step 1: Pre-processing
 
-Merge your paired-end sequencing data:
+Merge the paired-end sequencing data:
 
 ```bash
 ./NGmerge -d -1 read1.fq.gz -2 read2.fq.gz -o merged.fq.gz
