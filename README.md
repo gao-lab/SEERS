@@ -33,6 +33,7 @@ SEERS (Selective Enrichment of Episomes with Random Sequences) is a high-through
 `TALE_models_LiJY_260128/`
 
 * Contains the architecture and weights for the **TALE models**.
+* Also includes scripts and utilities for model training, evaluation/testing, and other related works.
 
 ---
 
