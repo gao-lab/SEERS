@@ -24,7 +24,7 @@ SEERS (Selective Enrichment of Episomes with Random Sequences) is a high-through
 `SEERS_data_process_LiangN/`
 
 * `Nn_pp.R`: Extract and count N45 sequences from merged FASTQ files.
-* `Nn_pp_pool.R`: Aggregate counts across multiple biological replicates.
+* `Nn_pp_pool.R`: Aggregate counts across multiple biological and technical replicates.
 * `combine_dna_cyt_nuc.R`: Compute enrichment scores (SEERS data) by normalizing Cyt/Nuc counts against DNA input.
 * `kmer_profiling.R`: Statistical testing of k-mer correlations with regulatory activity.
 
