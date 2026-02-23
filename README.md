@@ -57,7 +57,7 @@ Merge the paired-end sequencing data:
 
 Download the full training dataset from Zenodo:
 
-🔗 [https://doi.org/10.5281/zenodo.18400022](https://doi.org/10.5281/zenodo.18400022)
+🔗 [https://doi.org/10.5281/zenodo.18737939](https://doi.org/10.5281/zenodo.18737939)
 
 ---
 
