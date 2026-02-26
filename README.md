@@ -6,14 +6,29 @@
 
 ### 📖 Introduction
 
-SEERS (Selective Enrichment of Episomes with Random Sequences) is a high-throughput framework designed to dissect the regulatory landscape of **3′ UTRs**. By leveraging random sequence libraries and episomal enrichment, this pipeline allows for the systematic identification of regulatory motifs and the quantification of their functional impact on gene expression.
+SEERS (Selective Enrichment of Episomes with Random Sequences) is an **improved MPRA (Massively Parallel Reporter Assay) workflow** for large-scale functional interrogation of DNA sequences while **minimizing transfection-associated perturbation and toxicity**.
+
+The key design of SEERS is the use of an **EBNA1/OriP-based episomal vector**, which enables **delayed cell collection** after transfection. This reduces acute cellular stress and nonspecific transcriptional effects caused by transfection, improving robustness and reproducibility of sequence–function measurements.
+
+Although SEERS is applied here to **3′ UTR** regulation, the workflow is **generalizable in principle to other DNA sequence types**, including promoters, enhancers, UTRs, or other cis-regulatory elements.
+
+This GitHub repository supports our manuscript in which we assayed ~**2 million** **45-nt random 3′ UTR** sequences using the SEERS workflow to quantify their regulatory effects on:
+1) **gene expression output**, and  
+2) **nuclear–cytoplasmic partitioning**.
+
+These measurements were further used to train a deep learning model named **TALE** for predicting regulatory activity, and to systematically identify **short 3′ UTR regulatory elements (2–8-mers)** and characterize their functional associations.
+
+
+---
 
 ### 🛠️ Key Features
 
-* **Massively Parallel Analysis:** Quantifies millions of random or specific sequences simultaneously.
-* **Multi-Compartment Profiling:** Supports data integration from DNA, Cytoplasm, and Nucleus.
-* **Motif Discovery:** Built-in tools for k-mer profiling and SNP effect prediction.
-* **Deep Learning Ready:** Includes pre-trained TALE models for regulatory activity prediction.
+* **Improved MPRA workflow:** Uses an **EBNA1/OriP episomal vector** to allow **delayed sampling**, reducing transfection-induced perturbation/toxicity.
+* **Massively parallel functional assay:** Quantifies the effects of **millions of sequences** in a single framework.
+* **Multi-compartment readout:** Captures regulation of **expression** and **nuclear–cytoplasmic localization** (DNA, Cytoplasm, Nucleus as supported by this repo’s analysis scripts).
+* **Motif discovery:** Built-in k-mer profiling to identify and quantify **2–8-mer** regulatory elements associated with measured activity.
+* **Deep learning ready:** Includes the **TALE** model code/weights and utilities for training and evaluation, plus notebooks for SNP effect prediction.
+
 
 ---
 
@@ -42,7 +57,7 @@ SEERS (Selective Enrichment of Episomes with Random Sequences) is a high-through
 #### Prerequisites
 
 * **Bioinformatics Tools:** [NGmerge](https://github.com/jsh58/NGmerge)
-* **Language Environment:** R (>= 4.0), Python (>= 3.9, TensorFlow 2.16+)
+* **Language Environment:** R (>= 4.0), Python (>= 3.9)
 
 #### Step 1: Pre-processing
 
