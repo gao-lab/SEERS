@@ -4,79 +4,112 @@
 
 ---
 
-### 📖 Introduction
+### 📄 Paper
 
-SEERS (Selective Enrichment of Episomes with Random Sequences) is an **improved MPRA (Massively Parallel Reporter Assay) workflow** for large-scale functional interrogation of DNA sequences while **minimizing transfection-associated perturbation and toxicity**.
-
-The key design of SEERS is the use of an **EBNA1/OriP-based episomal vector**, which enables **delayed cell collection** after transfection. This reduces acute cellular stress and nonspecific transcriptional effects caused by transfection, improving robustness and reproducibility of sequence–function measurements.
-
-Although SEERS is applied here to **3′ UTR** regulation, the workflow is **generalizable in principle to other DNA sequence types**, including promoters, enhancers, UTRs, or other cis-regulatory elements.
-
-This GitHub repository supports our manuscript in which we assayed ~**2 million** **45-nt random 3′ UTR** sequences using the SEERS workflow to quantify their regulatory effects on:
-1) **gene expression output**, and  
-2) **nuclear–cytoplasmic partitioning**.
-
-These measurements were further used to train a deep learning model named **TALE** for predicting regulatory activity, and to systematically identify **short 3′ UTR regulatory elements (2–8-mers)** and characterize their functional associations.
-
+This repository accompanies the SEERS manuscript (BioRxiv):  
+https://www.biorxiv.org/content/10.1101/2025.06.09.658412v2
 
 ---
 
-### 🛠️ Key Features
+### 📌 What this repository currently contains
 
-* **Improved MPRA workflow:** Uses an **EBNA1/OriP episomal vector** to allow **delayed sampling**, reducing transfection-induced perturbation/toxicity.
-* **Massively parallel functional assay:** Quantifies the effects of **millions of sequences** in a single framework.
-* **Multi-compartment readout:** Captures regulation of **expression** and **nuclear–cytoplasmic localization** (DNA, Cytoplasm, Nucleus as supported by this repo’s analysis scripts).
-* **Motif discovery:** Built-in k-mer profiling to identify and quantify **2–8-mer** regulatory elements associated with measured activity.
-* **Deep learning ready:** Includes the **TALE** model code/weights and utilities for training and evaluation, plus notebooks for SNP effect prediction.
+This repo is focused on two practical parts:
 
-
----
-
-### 📂 Repository Structure
-
-#### 1. Data Processing & k-mer Analyses
-
-`SEERS_data_process_LiangN/`
-
-* `Nn_pp.R`: Extract and count N45 sequences from merged FASTQ files.
-* `Nn_pp_pool.R`: Aggregate counts across multiple biological and technical replicates.
-* `combine_dna_cyt_nuc.R`: Compute enrichment scores (SEERS data) by normalizing Cyt/Nuc counts against DNA input.
-* `kmer_profiling.R`: Statistical testing of k-mer correlations with regulatory activity.
-
-#### 2. Deep Learning Models
-
-`TALE_models_LiJY_260128/`
-
-* Contains the architecture and weights for the **TALE models**.
-* Also includes scripts and utilities for model training, evaluation/testing, and other related works.
+1. **SEERS count/enrichment processing and k-mer analysis (R scripts)**  
+   Folder: `SEERS_data_process_LiangN/`
+2. **TALE model training/evaluation scripts and a pretrained weight (Python scripts)**  
+   Folder: `TALE_models_LiJY_260128/`
 
 ---
 
-### 🚀 Getting Started
+### 📂 Current folder guide (based on existing files)
 
-#### Prerequisites
+#### `SEERS_data_process_LiangN/` (R)
 
-* **Bioinformatics Tools:** [NGmerge](https://github.com/jsh58/NGmerge)
-* **Language Environment:** R (>= 4.0), Python (>= 3.9)
+- `Nn_pp.R`  
+  Extracts and counts N45 sequences from merged FASTQ files.
+- `Nn_pp_pool.R`  
+  Pools counts across biological/technical replicates.
+- `combine_dna_cyt_nuc.R`  
+  Computes enrichment-style values using DNA/Cytoplasm/Nucleus counts.
+- `kmer_profiling.R`  
+  Performs k-mer level association/correlation analyses.
 
-#### Step 1: Pre-processing
+#### `TALE_models_LiJY_260128/` (Python)
 
-Merge the paired-end sequencing data:
+- `Re_trained_seerr.py`  
+  Main retraining script for SEERS/TALE style modeling.
+- `eval_seers_lstm_on_3pL6_A549.py`  
+  Evaluation script for LSTM model on A549-related set.
+- `external_test_3pL6_HCT116.py`  
+  External test script for HCT116-related set.
+- `eval_external_models_on_3pL6_A549.py`  
+  Compare/evaluate external models on A549-related set.
+- `eval_clinvar_snps_pytorch.py`  
+  ClinVar SNP effect evaluation utility.
+- `eval_cnn1_kernel_sweep.py`  
+  CNN kernel sweep evaluation script.
+- `Randomseq_vs3utr.py`  
+  Utility for random-sequence vs 3′UTR comparisons.
+- `model/final_model.pth`  
+  Included pretrained model weight.
+
+---
+
+### 🚀 Quick start (current scripts)
+
+### 1) Prepare merged FASTQ (if starting from paired-end reads)
+
+Use NGmerge as in the manuscript workflow:
 
 ```bash
 ./NGmerge -d -1 read1.fq.gz -2 read2.fq.gz -o merged.fq.gz
-
 ```
 
-#### Step 2: Training Data
+### 2) Run R-based processing
 
-Download the full training dataset from Zenodo:
+```bash
+cd SEERS_data_process_LiangN
+Rscript Nn_pp.R
+Rscript Nn_pp_pool.R
+Rscript combine_dna_cyt_nuc.R
+Rscript kmer_profiling.R
+```
 
-🔗 [https://doi.org/10.5281/zenodo.18737939](https://doi.org/10.5281/zenodo.18737939)
+> Note: these scripts assume your input paths/filenames are configured inside scripts.
+
+### 3) Run Python model scripts
+
+```bash
+cd TALE_models_LiJY_260128
+python Re_trained_seerr.py
+python eval_seers_lstm_on_3pL6_A549.py
+python external_test_3pL6_HCT116.py
+python eval_external_models_on_3pL6_A549.py
+python eval_clinvar_snps_pytorch.py
+python eval_cnn1_kernel_sweep.py
+```
 
 ---
 
-### 📝 Change Log
+### 📦 Data
+
+Full training dataset (Zenodo):  
+https://doi.org/10.5281/zenodo.18737939
+
+---
+
+### 🧰 Environment (minimal)
+
+- R >= 4.0
+- Python >= 3.9
+- NGmerge
+
+If you encounter package errors, please install dependencies required by each script in your local environment.
+
+---
+
+### 📝 Changelog
 
 | Date | Version/Update | Description |
 | --- | --- | --- |
@@ -84,6 +117,4 @@ Download the full training dataset from Zenodo:
 | **2025-04-21** | v1.2 | Added `kmer_motif.ipynb` and `N45_dissect.ipynb`. |
 | **2024-12-08** | v1.1 | Added `TALE_SNP_effect.ipynb`. |
 | **2024-08-14** | v1.0 | TF 2.16 compatibility fix & Refactored Notebooks. |
-
----
 
