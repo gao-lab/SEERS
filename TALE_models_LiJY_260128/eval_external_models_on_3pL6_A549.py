@@ -186,7 +186,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--models_dir", type=str, default="./cnn1_kernel_sweep_out_seeds/models",
                     help="Directory containing seed*/ks*.pt")
-    ap.add_argument("--test_csv", type=str, default="./train_data_260106/3pL6-A549.csv")
+    ap.add_argument("--test_csv", type=str, default="./train_data_260128/3pL6-A549-T1.csv")
     ap.add_argument("--seq_col", type=str, default="Nn")
     ap.add_argument("--seq_len", type=int, default=46)
 
@@ -194,7 +194,7 @@ def main():
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--gpu", type=int, default=0)
 
-    ap.add_argument("--out_csv", type=str, default="./cnn1_kernel_sweep_out_seeds/external_test_3pL6-A549.metrics.csv")
+    ap.add_argument("--out_csv", type=str, default="./cnn1_kernel_sweep_out_seeds/external_test_3pL6-A549-T1.metrics.csv")
     args = ap.parse_args()
 
     device = torch.device(f"cuda:{args.gpu}" if torch.cuda.is_available() else "cpu")

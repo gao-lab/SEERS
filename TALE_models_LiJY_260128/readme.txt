@@ -1,17 +1,22 @@
 This script trains a PyTorch LSTM-based sequence model to predict nuclear and cytoplasmic signals in A549 and HCT116 cells from DNA sequences.
 
-Prepare train_set.csv, val_set.csv, and test_set.csv under train_data_260106/, each containing a sequence column (Nn) and four target columns:
-nuc.score.A549, cyt.score.A549, nuc.score.HCT116, cyt.score.HCT116.
+Recommended (Zenodo v260128): use a single train CSV with a `group` column (`train`/`val`/`test`):
+  TALE-train-data-260128.csv
+and optional external A549 high-quality test set:
+  3pL6-A549-T1.csv
 
 Run training and evaluation with:
-python Re_trained_seerr.py
+python Re_trained_seerr.py \
+  --train_csv ./train_data_260128/TALE-train-data-260128.csv \
+  --save_path ./models/seerr_torch_260128 \
+  --seeds 42
 
 
 
 
 This script sweeps Conv1D kernel sizes for a simple CNN (Conv1D + GlobalMaxPool + MLP) to predict four targets (A549 nuc/cyt, HCT116 nuc/cyt). It trains across multiple random seeds, saves per-(seed,kernel) checkpoints, and outputs per-seed + aggregated (mean/std) CSVs and error-bar plots.
 python eval_cnn1_kernel_sweep.py \
-  --data_dir ./train_data_260106 \
+  --train_csv ./train_data_260128/TALE-train-data-260128.csv \
   --out_dir ./cnn1_kernel_sweep_out_seeds \
   --seeds 42 0 5314 \
   --kernel_min 2 --kernel_max 11 \
@@ -22,18 +27,18 @@ It loads all seed*/ks*.pt checkpoints, keeps the first two outputs ([A549_nuc, A
 
 python eval_external_models_on_3pL6_A549.py \
   --models_dir ./cnn1_kernel_sweep_out_seeds/models \
-  --test_csv ./train_data_260106/3pL6-A549.csv \
-  --out_csv ./cnn1_kernel_sweep_out_seeds/external_test_3pL6-A549.metrics.csv \
+  --test_csv ./train_data_260128/3pL6-A549-T1.csv \
+  --out_csv ./cnn1_kernel_sweep_out_seeds/external_test_3pL6-A549-T1.metrics.csv \
   --gpu 0
 
 This script evaluates trained SEERS LSTM models on an external A549 dataset.
 It loads final_model.pth (or best_model.pth) from each seed* directory, runs inference, and reports MAE / Pearson / R² for A549 nuclear and cytoplasmic outputs.
 
 python eval_seers_lstm_on_3pL6_A549.py \
-  --models_root ./models/ \
+  --models_root ./models/seerr_torch_260128 \
   --which best \
-  --test_csv ./train_data_260106/3pL6-A549.csv \
-  --out_csv ./models//external_test_3pL6-A549.lstm_metrics.csv \
+  --test_csv ./train_data_260128/3pL6-A549-T1.csv \
+  --out_csv ./models/seerr_torch_260128/external_test_3pL6-A549-T1.lstm_metrics.csv \
   --gpu 0
 
 This script evaluates a single trained SEERS LSTM model on an external HCT116 dataset.
@@ -62,4 +67,3 @@ python eval_clinvar_snps_pytorch.py \
   --gpu 7 \
   --do_random --n_random 10000 \
   --random_hist_png random_snp_effects.pytorch.png
-

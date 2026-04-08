@@ -181,11 +181,11 @@ def eval_a549_2d(pred4: np.ndarray, true2: np.ndarray) -> Dict[str, float]:
 # -------------------------
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--models_root", type=str, default="./models/seerr_torch_260106",
+    ap.add_argument("--models_root", type=str, default="./models/seerr_torch_260128",
                     help="Root dir containing seed*/final_model.pth (or best_model.pth)")
     ap.add_argument("--which", type=str, default="final", choices=["final", "best"],
                     help="Evaluate final_model.pth or best_model.pth")
-    ap.add_argument("--test_csv", type=str, default="./train_data_260106/3pL6-A549.csv")
+    ap.add_argument("--test_csv", type=str, default="./train_data_260128/3pL6-A549-T1.csv")
     ap.add_argument("--seq_col", type=str, default="Nn")
     ap.add_argument("--seq_len", type=int, default=46)
 
@@ -193,7 +193,7 @@ def main():
     ap.add_argument("--eval_bs", type=int, default=4096)
     ap.add_argument("--workers", type=int, default=4)
 
-    ap.add_argument("--out_csv", type=str, default="./models/seerr_torch_260106/external_test_3pL6-A549.lstm_metrics.csv")
+    ap.add_argument("--out_csv", type=str, default="./models/seerr_torch_260128/external_test_3pL6-A549-T1.lstm_metrics.csv")
     args = ap.parse_args()
 
     device = torch.device(f"cuda:{args.gpu}" if torch.cuda.is_available() else "cpu")
