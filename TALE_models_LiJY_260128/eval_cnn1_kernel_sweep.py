@@ -68,6 +68,39 @@ def load_multicell(csv_path, seq_col="Nn", L=46):
     return X, Y
 
 
+def load_multicell_group_split(train_csv, seq_col="Nn", L=46):
+    """
+    Load a single CSV with `group` column and return train/val/test splits.
+    group values must include train, val, test.
+    """
+    df = pd.read_csv(train_csv)
+    if "group" not in df.columns:
+        raise ValueError(f"`group` column not found in {train_csv}")
+    out = {}
+    for split in ("train", "val", "test"):
+        sdf = df[df["group"].astype(str).str.lower() == split].copy()
+        if sdf.empty:
+            raise ValueError(f"No rows for group='{split}' in {train_csv}")
+        out[split] = sdf
+
+    def to_xy(sdf):
+        seqs = sdf[seq_col].astype(str).tolist()
+        base = {'A': [1, 0, 0, 0], 'C': [0, 1, 0, 0], 'G': [0, 0, 1, 0], 'T': [0, 0, 0, 1], 'N': [0, 0, 0, 0]}
+        X = np.zeros((len(seqs), L, 6), dtype=np.float32)
+        for i, s in enumerate(seqs):
+            s = s.upper()
+            oh4 = np.array([base.get(ch, [0, 0, 0, 0]) for ch in s], dtype=np.float32)
+            if oh4.shape[0] < L:
+                oh4 = np.vstack([oh4, np.zeros((L - oh4.shape[0], 4), np.float32)])
+            else:
+                oh4 = oh4[:L]
+            X[i, :, :4] = oh4
+        Y = sdf[["nuc.score.A549", "cyt.score.A549", "nuc.score.HCT116", "cyt.score.HCT116"]].to_numpy(np.float32)
+        return X, Y
+
+    return to_xy(out["train"]), to_xy(out["val"]), to_xy(out["test"])
+
+
 # -------------------------
 # Model: Conv1d + GlobalMaxPool + 1-layer MLP
 # -------------------------
@@ -262,6 +295,7 @@ def main():
     import argparse
     ap = argparse.ArgumentParser()
     ap.add_argument("--data_dir", type=str, default="./train_data_260106")
+    ap.add_argument("--train_csv", type=str, default="", help="Single CSV with group={train,val,test}, e.g. TALE-train-data-260128.csv")
     ap.add_argument("--out_dir", type=str, default="./cnn1_kernel_sweep_out_seeds")
     ap.add_argument("--seq_col", type=str, default="Nn")
     ap.add_argument("--seq_len", type=int, default=46)
@@ -293,9 +327,12 @@ def main():
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    Xtr, Ytr = load_multicell(data_dir / "train_set.csv", seq_col=args.seq_col, L=args.seq_len)
-    Xva, Yva = load_multicell(data_dir / "val_set.csv",   seq_col=args.seq_col, L=args.seq_len)
-    Xte, Yte = load_multicell(data_dir / "test_set.csv",  seq_col=args.seq_col, L=args.seq_len)
+    if args.train_csv:
+        (Xtr, Ytr), (Xva, Yva), (Xte, Yte) = load_multicell_group_split(args.train_csv, seq_col=args.seq_col, L=args.seq_len)
+    else:
+        Xtr, Ytr = load_multicell(data_dir / "train_set.csv", seq_col=args.seq_col, L=args.seq_len)
+        Xva, Yva = load_multicell(data_dir / "val_set.csv", seq_col=args.seq_col, L=args.seq_len)
+        Xte, Yte = load_multicell(data_dir / "test_set.csv", seq_col=args.seq_col, L=args.seq_len)
 
     all_rows = []
     models_dir = out_dir / "models"

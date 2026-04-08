@@ -82,12 +82,12 @@ Rscript kmer_profiling.R
 
 ```bash
 cd TALE_models_LiJY_260128
-python Re_trained_seerr.py
-python eval_seers_lstm_on_3pL6_A549.py
+python Re_trained_seerr.py --train_csv ./train_data_260128/TALE-train-data-260128.csv --save_path ./models/seerr_torch_260128 --seeds 42
+python eval_seers_lstm_on_3pL6_A549.py --models_root ./models/seerr_torch_260128 --test_csv ./train_data_260128/3pL6-A549-T1.csv
 python external_test_3pL6_HCT116.py
-python eval_external_models_on_3pL6_A549.py
+python eval_external_models_on_3pL6_A549.py --test_csv ./train_data_260128/3pL6-A549-T1.csv
 python eval_clinvar_snps_pytorch.py
-python eval_cnn1_kernel_sweep.py
+python eval_cnn1_kernel_sweep.py --train_csv ./train_data_260128/TALE-train-data-260128.csv
 ```
 
 ---
@@ -96,6 +96,12 @@ python eval_cnn1_kernel_sweep.py
 
 Full training dataset (Zenodo):  
 https://doi.org/10.5281/zenodo.18737939
+
+For current TALE scripts, prefer the latest split-aware files from Zenodo:
+- `TALE-train-data-260128.csv` (single file with `group` column: `train` / `val` / `test`)
+- `3pL6-A549-T1.csv` (independent high-quality A549 external test set)
+
+The training/evaluation scripts in `TALE_models_LiJY_260128/` now support direct use of this `group` column format for easier standalone reproduction.
 
 ---
 
@@ -113,8 +119,8 @@ If you encounter package errors, please install dependencies required by each sc
 
 | Date | Version/Update | Description |
 | --- | --- | --- |
+| **2026-04-08** | v2.1 | Added split-aware usage examples in README and synchronized quick-start commands with current Zenodo v260128 workflow. |
 | **2026-01-28** | v2.0 | Updated scripts for revised manuscript and new datasets. |
 | **2025-04-21** | v1.2 | Added `kmer_motif.ipynb` and `N45_dissect.ipynb`. |
 | **2024-12-08** | v1.1 | Added `TALE_SNP_effect.ipynb`. |
 | **2024-08-14** | v1.0 | TF 2.16 compatibility fix & Refactored Notebooks. |
-

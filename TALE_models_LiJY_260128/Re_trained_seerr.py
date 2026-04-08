@@ -16,6 +16,7 @@ import shutil
 import multiprocessing
 from torch.utils.tensorboard import SummaryWriter  # TensorBoard support
 import random
+import argparse
 
 
 def set_global_seed(seed: int):
@@ -545,6 +546,69 @@ def prepare_legnet_input_multicell(csv_path, seq_col="Nn", seqsize=46):
     return X_final, Y
 
 
+def prepare_legnet_input_multicell_df(df, seq_col="Nn", seqsize=46):
+    """
+    Prepare one-hot encoded inputs and 4-dim outputs from an in-memory dataframe.
+    Required columns:
+      Nn, cyt.score.A549, nuc.score.A549, cyt.score.HCT116, nuc.score.HCT116
+    Returns:
+      X: (N, seqsize, 6)
+      Y: (N, 4) = [nuc.A549, cyt.A549, nuc.HCT116, cyt.HCT116]
+    """
+    need_cols = [
+        seq_col,
+        "nuc.score.A549", "cyt.score.A549",
+        "nuc.score.HCT116", "cyt.score.HCT116"
+    ]
+    miss = [c for c in need_cols if c not in df.columns]
+    if miss:
+        raise ValueError(f"Missing columns: {miss}. Available columns: {list(df.columns)}")
+
+    seqs = df[seq_col].astype(str).tolist()
+    base_to_vec = {
+        'A': [1, 0, 0, 0],
+        'C': [0, 1, 0, 0],
+        'G': [0, 0, 1, 0],
+        'T': [0, 0, 0, 1],
+        'N': [0, 0, 0, 0]
+    }
+
+    X_final = np.zeros((len(seqs), seqsize, 6), dtype=np.float32)
+    for i, seq in enumerate(seqs):
+        seq = seq.upper()
+        one_hot4 = np.array([base_to_vec.get(b, [0, 0, 0, 0]) for b in seq], dtype=np.float32)
+        if one_hot4.shape[0] < seqsize:
+            pad = np.zeros((seqsize - one_hot4.shape[0], 4), dtype=np.float32)
+            one_hot4 = np.vstack([one_hot4, pad])
+        else:
+            one_hot4 = one_hot4[:seqsize]
+        full6 = np.zeros((seqsize, 6), dtype=np.float32)
+        full6[:, :4] = one_hot4
+        X_final[i] = full6
+
+    Y = df[["nuc.score.A549", "cyt.score.A549", "nuc.score.HCT116", "cyt.score.HCT116"]].to_numpy(dtype=np.float32)
+    return X_final, Y
+
+
+def load_split_data_from_group_csv(group_csv: Path, seq_col: str = "Nn", seqsize: int = 46):
+    """
+    Load train/val/test from a single CSV containing a `group` column with:
+      train, val, test
+    """
+    df = pd.read_csv(group_csv)
+    if "group" not in df.columns:
+        raise ValueError(f"`group` column not found in {group_csv}.")
+
+    split_map = {"train": "train", "val": "val", "test": "test"}
+    out = {}
+    for raw_name, std_name in split_map.items():
+        split_df = df[df["group"].astype(str).str.lower() == raw_name].copy()
+        if split_df.empty:
+            raise ValueError(f"No rows found for group='{raw_name}' in {group_csv}.")
+        out[std_name] = prepare_legnet_input_multicell_df(split_df, seq_col=seq_col, seqsize=seqsize)
+    return out["train"], out["val"], out["test"]
+
+
 def evaluate_multicell(model, X, Y, config, out_dir: Path, tag: str):
     """
     Y: (N, 4) = [nuc.A549, cyt.A549, nuc.HCT116, cyt.HCT116]
@@ -602,7 +666,7 @@ def evaluate_multicell(model, X, Y, config, out_dir: Path, tag: str):
     return metrics
 
 
-def maintrain(seed):
+def maintrain(seed, args):
     # ========== Basic configuration ==========
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
@@ -617,7 +681,7 @@ def maintrain(seed):
     )
 
     # Your model save directory (seed-specific subfolders)
-    save_path = './models/seerr_torch_260106/'
+    save_path = args.save_path
 
     config = {
         'gpu': 0,
@@ -637,19 +701,21 @@ def maintrain(seed):
     }
     set_global_seed(config['seed'])
 
-    # ========== Load current train/val/test splits ==========
-    # Current directory structure:
-    # ./251230_train_set/train_set.csv
-    # ./251230_train_set/val_set.csv
-    # ./251230_train_set/test_set.csv
-    base_dir = Path("./train_data_260106")
-    train_csv = base_dir / "train_set.csv"
-    val_csv = base_dir / "val_set.csv"
-    test_csv = base_dir / "test_set.csv"
-
-    X_train, Y_train = prepare_legnet_input_multicell(train_csv, seq_col="Nn", seqsize=seq_size)
-    X_valid, Y_valid = prepare_legnet_input_multicell(val_csv, seq_col="Nn", seqsize=seq_size)
-    X_test, Y_test = prepare_legnet_input_multicell(test_csv, seq_col="Nn", seqsize=seq_size)
+    # ========== Load train/val/test ==========
+    # Preferred: one CSV with `group` column (train/val/test), e.g. TALE-train-data-260128.csv.
+    # Backward compatible: separate train_set.csv / val_set.csv / test_set.csv.
+    if args.train_csv:
+        (X_train, Y_train), (X_valid, Y_valid), (X_test, Y_test) = load_split_data_from_group_csv(
+            Path(args.train_csv), seq_col=args.seq_col, seqsize=seq_size
+        )
+    else:
+        base_dir = Path(args.data_dir)
+        train_csv = base_dir / "train_set.csv"
+        val_csv = base_dir / "val_set.csv"
+        test_csv = base_dir / "test_set.csv"
+        X_train, Y_train = prepare_legnet_input_multicell(train_csv, seq_col=args.seq_col, seqsize=seq_size)
+        X_valid, Y_valid = prepare_legnet_input_multicell(val_csv, seq_col=args.seq_col, seqsize=seq_size)
+        X_test, Y_test = prepare_legnet_input_multicell(test_csv, seq_col=args.seq_col, seqsize=seq_size)
 
     print("Train:", X_train.shape, Y_train.shape)  # Y should be (N, 4)
     print("Val  :", X_valid.shape, Y_valid.shape)
@@ -679,6 +745,14 @@ def maintrain(seed):
 
 
 if __name__ == "__main__":
-    randomseedslist = [42]
+    parser = argparse.ArgumentParser(description="Retrain SEERS LSTM with Zenodo split-aware loader.")
+    parser.add_argument("--train_csv", type=str, default="", help="Single CSV with group={train,val,test}.")
+    parser.add_argument("--data_dir", type=str, default="./train_data_260106", help="Fallback directory with train_set/val_set/test_set CSV files.")
+    parser.add_argument("--seq_col", type=str, default="Nn", help="Sequence column name.")
+    parser.add_argument("--save_path", type=str, default="./models/seerr_torch_260128/", help="Output model root directory.")
+    parser.add_argument("--seeds", type=int, nargs="+", default=[42], help="Random seeds list.")
+    args = parser.parse_args()
+
+    randomseedslist = args.seeds
     for seed in randomseedslist:
-        maintrain(seed)
+        maintrain(seed, args)
