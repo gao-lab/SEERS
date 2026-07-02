@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.idea/
+
+# Local data and run outputs
+*.fastq
+*.fq
+*.fastq.gz
+*.fq.gz
+/runs/
+/models/
+
+# Large or local data files
+TALE_train_data_*.csv
+3pL6-A549-T1.csv
+ClinVar_3UTR_SNPs.tsv

@@ -1,0 +1,316 @@
+{
+  "artifact_manifest": {
+    "model_bundle_path": "runs/TALE_e5-lstm256bx128b-fc256-0.1-ema0.999-seed3407_260320_132204/model_bundle.pt",
+    "summary_path": "runs/TALE_e5-lstm256bx128b-fc256-0.1-ema0.999-seed3407_260320_132204/summary.json",
+    "test_prediction_path": "runs/TALE_e5-lstm256bx128b-fc256-0.1-ema0.999-seed3407_260320_132204/test_predictions.csv",
+    "independent_a549_prediction_path": "runs/TALE_e5-lstm256bx128b-fc256-0.1-ema0.999-seed3407_260320_132204/independent_a549_predictions.csv",
+    "selected_weight_set": "ema",
+    "debug_artifacts": {
+      "enabled": true,
+      "step_eval_history_path": "runs/TALE_e5-lstm256bx128b-fc256-0.1-ema0.999-seed3407_260320_132204/history_step_eval.csv",
+      "epoch_history_path": "runs/TALE_e5-lstm256bx128b-fc256-0.1-ema0.999-seed3407_260320_132204/history_epoch.csv",
+      "train_curve_path": "runs/TALE_e5-lstm256bx128b-fc256-0.1-ema0.999-seed3407_260320_132204/training_curves_step_eval.png",
+      "test_scatter_path": "runs/TALE_e5-lstm256bx128b-fc256-0.1-ema0.999-seed3407_260320_132204/test_prediction_scatter.png",
+      "independent_a549_scatter_path": "runs/TALE_e5-lstm256bx128b-fc256-0.1-ema0.999-seed3407_260320_132204/independent_a549_prediction_scatter.png",
+      "notebook_snapshot_path": "runs/TALE_e5-lstm256bx128b-fc256-0.1-ema0.999-seed3407_260320_132204/TALE_training.ipynb"
+    }
+  },
+  "final_metrics": {
+    "selected_weight_set": "ema",
+    "selected_eval_metrics": {
+      "train_metrics": {
+        "overall_rmse": 1.6275337934494019,
+        "cyt.score.A549_rmse": 1.5791521072387695,
+        "cyt.score.A549_pearson": 0.67799686478354,
+        "nuc.score.A549_rmse": 0.724621593952179,
+        "nuc.score.A549_pearson": 0.518095658793613,
+        "cyt.score.HCT116_rmse": 2.3363475799560547,
+        "cyt.score.HCT116_pearson": 0.44997236182286543,
+        "nuc.score.HCT116_rmse": 1.4495962858200073,
+        "nuc.score.HCT116_pearson": 0.1950612657591002,
+        "loss": 0.7734042324570077
+      },
+      "val_metrics": {
+        "overall_rmse": 0.841081976890564,
+        "cyt.score.A549_rmse": 1.0186094045639038,
+        "cyt.score.A549_pearson": 0.7599325862044329,
+        "nuc.score.A549_rmse": 0.42166006565093994,
+        "nuc.score.A549_pearson": 0.5182088624716666,
+        "cyt.score.HCT116_rmse": 1.1631009578704834,
+        "cyt.score.HCT116_pearson": 0.8861263902512359,
+        "nuc.score.HCT116_rmse": 0.5113475322723389,
+        "nuc.score.HCT116_pearson": 0.4675800122963134,
+        "loss": 0.2024837457580668
+      },
+      "test_metrics": {
+        "overall_rmse": 0.7501984238624573,
+        "cyt.score.A549_rmse": 0.8182055950164795,
+        "cyt.score.A549_pearson": 0.7935003121094738,
+        "nuc.score.A549_rmse": 0.29128432273864746,
+        "nuc.score.A549_pearson": 0.633361269180058,
+        "cyt.score.HCT116_rmse": 1.1439658403396606,
+        "cyt.score.HCT116_pearson": 0.8859396871284315,
+        "nuc.score.HCT116_rmse": 0.4338506758213043,
+        "nuc.score.HCT116_pearson": 0.5356324219835072,
+        "loss": 0.13850108846028647
+      },
+      "independent_a549_metrics": {
+        "overall_rmse": 0.795875072479248,
+        "cyt.score_rmse": 0.7085927128791809,
+        "cyt.score_pearson": 0.891540036167636,
+        "nuc.score_rmse": 0.8744882941246033,
+        "nuc.score_pearson": 0.8397536788229627,
+        "loss": 0.6000267825126648
+      }
+    },
+    "raw_eval_metrics": {
+      "train_metrics": {
+        "overall_rmse": 1.5851566791534424,
+        "cyt.score.A549_rmse": 1.491458535194397,
+        "cyt.score.A549_pearson": 0.7021893090845852,
+        "nuc.score.A549_rmse": 0.7065205574035645,
+        "nuc.score.A549_pearson": 0.5389574848863623,
+        "cyt.score.HCT116_rmse": 2.2856147289276123,
+        "cyt.score.HCT116_pearson": 0.47070924530099983,
+        "nuc.score.HCT116_rmse": 1.4451760053634644,
+        "nuc.score.HCT116_pearson": 0.2047252089881744,
+        "loss": 0.738581076230697
+      },
+      "val_metrics": {
+        "overall_rmse": 0.8783559799194336,
+        "cyt.score.A549_rmse": 0.9985446333885193,
+        "cyt.score.A549_pearson": 0.7864629242143037,
+        "nuc.score.A549_rmse": 0.4591149389743805,
+        "nuc.score.A549_pearson": 0.5348260752199887,
+        "cyt.score.HCT116_rmse": 1.2464643716812134,
+        "cyt.score.HCT116_pearson": 0.9219909752476049,
+        "nuc.score.HCT116_rmse": 0.5696339011192322,
+        "nuc.score.HCT116_pearson": 0.48549593971771754,
+        "loss": 0.2265796347972196
+      },
+      "test_metrics": {
+        "overall_rmse": 0.7881425023078918,
+        "cyt.score.A549_rmse": 0.8066273927688599,
+        "cyt.score.A549_pearson": 0.8204781597112858,
+        "nuc.score.A549_rmse": 0.31101587414741516,
+        "nuc.score.A549_pearson": 0.658214405670836,
+        "cyt.score.HCT116_rmse": 1.229197382926941,
+        "cyt.score.HCT116_pearson": 0.9184065425848476,
+        "nuc.score.HCT116_rmse": 0.47578153014183044,
+        "nuc.score.HCT116_pearson": 0.5508157876939227,
+        "loss": 0.15354539223512015
+      },
+      "independent_a549_metrics": {
+        "overall_rmse": 0.7859179377555847,
+        "cyt.score_rmse": 0.7560344934463501,
+        "cyt.score_pearson": 0.9128788814409322,
+        "nuc.score_rmse": 0.8147058486938477,
+        "nuc.score_pearson": 0.8419561015236056,
+        "loss": 0.536254361629486
+      }
+    },
+    "ema_eval_metrics": {
+      "train_metrics": {
+        "overall_rmse": 1.6275337934494019,
+        "cyt.score.A549_rmse": 1.5791521072387695,
+        "cyt.score.A549_pearson": 0.67799686478354,
+        "nuc.score.A549_rmse": 0.724621593952179,
+        "nuc.score.A549_pearson": 0.518095658793613,
+        "cyt.score.HCT116_rmse": 2.3363475799560547,
+        "cyt.score.HCT116_pearson": 0.44997236182286543,
+        "nuc.score.HCT116_rmse": 1.4495962858200073,
+        "nuc.score.HCT116_pearson": 0.1950612657591002,
+        "loss": 0.7734042324570077
+      },
+      "val_metrics": {
+        "overall_rmse": 0.841081976890564,
+        "cyt.score.A549_rmse": 1.0186094045639038,
+        "cyt.score.A549_pearson": 0.7599325862044329,
+        "nuc.score.A549_rmse": 0.42166006565093994,
+        "nuc.score.A549_pearson": 0.5182088624716666,
+        "cyt.score.HCT116_rmse": 1.1631009578704834,
+        "cyt.score.HCT116_pearson": 0.8861263902512359,
+        "nuc.score.HCT116_rmse": 0.5113475322723389,
+        "nuc.score.HCT116_pearson": 0.4675800122963134,
+        "loss": 0.2024837457580668
+      },
+      "test_metrics": {
+        "overall_rmse": 0.7501984238624573,
+        "cyt.score.A549_rmse": 0.8182055950164795,
+        "cyt.score.A549_pearson": 0.7935003121094738,
+        "nuc.score.A549_rmse": 0.29128432273864746,
+        "nuc.score.A549_pearson": 0.633361269180058,
+        "cyt.score.HCT116_rmse": 1.1439658403396606,
+        "cyt.score.HCT116_pearson": 0.8859396871284315,
+        "nuc.score.HCT116_rmse": 0.4338506758213043,
+        "nuc.score.HCT116_pearson": 0.5356324219835072,
+        "loss": 0.13850108846028647
+      },
+      "independent_a549_metrics": {
+        "overall_rmse": 0.795875072479248,
+        "cyt.score_rmse": 0.7085927128791809,
+        "cyt.score_pearson": 0.891540036167636,
+        "nuc.score_rmse": 0.8744882941246033,
+        "nuc.score_pearson": 0.8397536788229627,
+        "loss": 0.6000267825126648
+      }
+    },
+    "best_epoch": 4,
+    "best_global_step": 3050,
+    "best_step_in_epoch": 332,
+    "best_val_loss": 0.2024837457580668,
+    "final_model_path": "runs/TALE_e5-lstm256bx128b-fc256-0.1-ema0.999-seed3407_260320_132204/model_bundle.pt"
+  },
+  "split_summary": {
+    "n_total": 1932209,
+    "n_train": 1854885,
+    "n_val": 74324,
+    "n_test": 3000
+  },
+  "target_stats": [
+    {
+      "target": "cyt.score.A549",
+      "mean": -0.9322770237922668,
+      "std": 2.0954456329345703
+    },
+    {
+      "target": "nuc.score.A549",
+      "mean": -0.2262604832649231,
+      "std": 0.8392642736434937
+    },
+    {
+      "target": "cyt.score.HCT116",
+      "mean": -1.533672571182251,
+      "std": 2.5914738178253174
+    },
+    {
+      "target": "nuc.score.HCT116",
+      "mean": -0.4859481751918793,
+      "std": 1.4775649309158325
+    }
+  ],
+  "model_config": {
+    "model_class": "TALELSTMRegressor",
+    "vocab_size": 6,
+    "pad_id": 5,
+    "embed_dim": 5,
+    "max_len": 46,
+    "use_positional_embedding": false,
+    "positional_dropout": 0.0,
+    "use_cnn_before_lstm": false,
+    "cnn_out_channels": [
+      64
+    ],
+    "cnn_kernel_sizes": [
+      9
+    ],
+    "cnn_strides": [
+      1
+    ],
+    "cnn_pool_types": [
+      "none"
+    ],
+    "cnn_pool_sizes": [
+      1
+    ],
+    "cnn_activation": "relu",
+    "cnn_dropout": 0.0,
+    "lstm_hidden_dims": [
+      256,
+      128
+    ],
+    "lstm_bidirectional": [
+      true,
+      true
+    ],
+    "lstm_inter_layer_dropout": 0.0,
+    "lstm_output_dropout": 0.0,
+    "use_packed_lstm": false,
+    "readout_mode": "flatten",
+    "attention_hidden_dim": 64,
+    "fc_hidden_dims": [
+      256
+    ],
+    "fc_inter_layer_dropout": 0.0,
+    "fc_output_dropout": 0.1,
+    "output_dim": 4
+  },
+  "preprocess_config": {
+    "csv_path": "TALE_train_data_260312.csv",
+    "seq_col": "Nn",
+    "group_col": "group",
+    "target_cols": [
+      "cyt.score.A549",
+      "nuc.score.A549",
+      "cyt.score.HCT116",
+      "nuc.score.HCT116"
+    ],
+    "vocab": {
+      "A": 0,
+      "C": 1,
+      "G": 2,
+      "T": 3,
+      "N": 4,
+      "PAD": 5
+    },
+    "pad_token": "PAD",
+    "pad_id": 5,
+    "n_id": 4,
+    "max_len": 46,
+    "target_mean": [
+      -0.9322770237922668,
+      -0.2262604832649231,
+      -1.533672571182251,
+      -0.4859481751918793
+    ],
+    "target_std": [
+      2.0954456329345703,
+      0.8392642736434937,
+      2.5914738178253174,
+      1.4775649309158325
+    ],
+    "split_summary": {
+      "n_total": 1932209,
+      "n_train": 1854885,
+      "n_val": 74324,
+      "n_test": 3000
+    }
+  },
+  "training_config": {
+    "experiment_name": "TALE",
+    "experiment_tag": "e5-lstm256bx128b-fc256*0.1-ema0.999-seed3407",
+    "run_name": "TALE_e5-lstm256bx128b-fc256-0.1-ema0.999-seed3407_260320_132204",
+    "gpu_index": 7,
+    "device": {
+      "device": "cuda:7",
+      "name": "NVIDIA GeForce RTX 2080 Ti",
+      "total_memory_GiB": 10.569
+    },
+    "batch_size": 2048,
+    "num_workers": 4,
+    "pin_memory": true,
+    "persistent_workers": true,
+    "seed": 3407,
+    "optimizer_name": "AdamW",
+    "lr": 0.0007,
+    "weight_decay": 1e-05,
+    "use_ema": true,
+    "ema_decay": 0.999,
+    "ema_update_after_step": 0,
+    "ema_update_every": 1,
+    "ema_eval_with_ema_weights": true,
+    "num_epochs": 128,
+    "use_warmup": false,
+    "warmup_steps": 128,
+    "warmup_start_factor": 0.01,
+    "use_scheduler": false,
+    "scheduler_factor": 0.5,
+    "scheduler_patience": 2,
+    "eval_every_n_steps": 50,
+    "early_stopping_patience": 16,
+    "early_stopping_min_delta": 0.0,
+    "grad_clip_norm": 1.0,
+    "max_train_steps": 0
+  },
+  "timestamp": "2026-03-20T13:43:09.630402"
+}
